@@ -1,26 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Top Select</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="js/functions.js"></script>
+    <script src="js/functions.js" defer></script>
 </head>
+
 <body class="bg-[#161618] font-sans">
     <header class="bg-[#1c1c1c] sticky top-0 z-50 border-b border-white/10">
         <nav class="max-w-6xl mx-auto px-8 py-3 flex flex-row justify-between">
             <figure class="flex items-center gap-3">
-                <img src="assets/logo.jpg" class="w-12 h-12 rounded-full object-cover" alt="Logo">
+                <img src="assets/logo.jpg" width="48" height="48" class="w-12 h-12 rounded-full object-cover"
+                    alt="Top Select - Car wiki logo">
                 <figcaption class="flex flex-col">
                     <p class="text-yellow-200 font-bold">Top Select</p>
                     <p class="text-xs text-gray-400">Wiki </p>
                 </figcaption>
             </figure>
             <ul class="flex gap-6 items-center justify-center">
-                <li><a href="#inicio" class="text-white hover:bg-[#555] px-2 py-2 rounded-md transition ">Inicio</a></li>
-                <li><a href="login.html" class="bg-[#333] hover:bg-[#555] text-white px-4 py-2 rounded-md transition ">Login</a></li>
-                <li> <span class="text-white"> Usuario logeado </span> </li>
+                <li><a href="#inicio" class="text-white hover:bg-[#555] px-2 py-2 rounded-md transition ">Inicio</a>
+                </li>
+                <li id="item-login">
+                    <a href="login.html"
+                        class="bg-[#333] hover:bg-[#555] text-white px-4 py-2 rounded-md transition">Login</a>
+                </li>
+                <li id="item-usuario" class="hidden flex items-center gap-4">
+                    <span id="nombre-usuario" class="text-white"></span>
+                    <button onclick="cerrarSesion()" class="bg-[#333] hover:bg-[#555] text-white px-2 py-1 rounded-md transition">Cerrar sesión</button>
+                </li>
             </ul>
         </nav>
     </header>
@@ -33,33 +43,27 @@
             <p class="text-white">
                 Desde deportivos hasta los mas clasicos
             </p>
-            <a href="#modelos" class="inline-block bg-[#333] text-white px-6 py-3 rounded-md text-sm font-semibold hover:bg-[#555]">
+            <a href="#modelos"
+                class="inline-block bg-[#333] text-white px-6 py-3 rounded-md text-sm font-semibold hover:bg-[#555]">
                 Explorar todos los modelos
             </a>
         </section>
-        
-        <section id="favoritos" class="max-w-6xl mx-auto bg-[#1c1c1c] p-6 rounded-md border border-white/10">
-            <h2 class="text-xl text-white font-bold mb-6">Tus Favoritos</h2>
-            <p class="text-gray-400 text-center py-8">Todavia no tienes carros en favorios</p>
 
+        <section id="favoritos" class="max-w-6xl mx-auto bg-[#1c1c1c] p-6 rounded-md border border-white/10">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl text-white font-bold mb-6">Tus Favoritos</h2>
+                <select class="rounded-xl px-4 py-2 bg-[#333] text-white border border-white/10">
+                    <option value="todos">Todos los carros</option>
+                    <option value="favoritos">Los mas favoritos</option>
+                    <option value="inpopulares"> Los menos favoritos</option>
+                </select>
+            </div>
+            <p class="text-gray-400 text-center py-8">Todavia no tienes carros en favorios</p>
         </section>
 
         <section id="modelos" class="py-8 max-w-6xl mx-auto">
             <h2 class="text-2xl font-bold text-white text-center">Modelos</h2>
-            <div class="grid grid-cols-3 gap-12 mt-6">
-                <article class="bg-[#1c1c1c] rounded-md border border-white/10">
-                    <img src="assets/Tsuru-tuning.jpg" alt="Nissan Tsuru" class="w-full h-52 object-cover">
-                    <div class="p-4 flex justify-between items-center">
-                        <div>
-                            <h3 class="text-white font-bold">Nissan Tsuru</h3>
-                            <p class="text-gray-400">$5,000</p>
-                        </div>
-                        <button class="text-gray-400 text-sm hover:text-white">
-                            Añadir
-                        </button>
-                    </div>
-                </article>
-
+            <div id="contenedor-autos" class="grid grid-cols-1 md:grid-cols-3 gap-12 mt-6">
             </div>
         </section>
     </main>
@@ -68,7 +72,8 @@
         <div class="max-w-6xl mx-auto px-6 py-6 text-center text-gray-400 text-sm">
             <p>Desarrollado por Jorge Luis</p>
         </div>
-    </footer> 
+    </footer>
 
 </body>
+
 </html>
