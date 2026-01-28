@@ -1,17 +1,20 @@
-const autos = [
+let autos = JSON.parse(localStorage.getItem('autos')) || [
     {
+        id: 1,
         nombre: "Nissan Tsuru",
         precio: "$5,000",
         imagen: "assets/Tsuru-tuning.jpg",
         favoritos: 150
     },
     {
+        id: 2,
         nombre: "Bocho Volkswagen",
         precio: "$7,000",
         imagen: "assets/bocho.jpg",
         favoritos: 10
     },
     {
+        id: 3,
         nombre: "Rayo McQueen",
         precio: "$12,000",
         imagen: "assets/RayoMcQueen.png",
@@ -21,17 +24,24 @@ const autos = [
 
 const usuarios = [
     {
+        id: 1,
         nombre: "Jorgedr",
-        contraseña: "contraseña123"
-
+        contraseña: "contraseña123",
     },
     {
+        id: 2,
         nombre: "Usuario",
-        contraseña: "contraseña123"
+        contraseña: "contraseña123",
     }
 ];
 
 function init() {
+
+    if(!localStorage.getItem('autos')) {
+        localStorage.setItem('autos', JSON.stringify(autos));
+    } else {
+        autos = JSON.parse(localStorage.getItem('autos'));
+    }
     
     const nombreGuardado = localStorage.getItem('usuarioLogueado');
     const itemLogin = document.getElementById('item-login');
@@ -53,10 +63,12 @@ document.addEventListener('DOMContentLoaded', init);
 
 function cargarAutos() {
     const contenedor = document.getElementById('contenedor-autos');
-
+    if (!contenedor) return;
     contenedor.innerHTML = ""; 
 
     autos.forEach(auto => {
+        const colorCorazon = auto.liked ? 'text-red-500' : 'text-gray-400';
+
         const article = `
             <article class="bg-[#1c1c1c] rounded-md border border-white/10 overflow-hidden">
                 <img src="${auto.imagen}" alt="${auto.nombre}" class="w-full h-52 object-cover">
@@ -66,7 +78,7 @@ function cargarAutos() {
                         <p class="text-gray-400">${auto.precio}</p>
                     </div>
                     <div class="text-center text-xs">
-                        <button class="text-gray-400 text-2xl hover:text-red-500 transition-colors">
+                        <button onclick="DarFavorito(${auto.id})" class="${colorCorazon} text-2xl hover:scale-110 transition-all">
                             ♥
                         </button>
                         <p class="text-gray-400 font-bold">${auto.favoritos}</p>
@@ -79,7 +91,9 @@ function cargarAutos() {
 }
 
 function HacerLogin(event) {
-    if(event) event.preventDefault();
+    if(event){
+        event.preventDefault();
+    }
 
     const nombreInput = document.getElementById('Usuario').value;
     const passInput = document.getElementById('contraseña').value;
@@ -106,4 +120,22 @@ function cerrarSesion() {
 
 function RegistrarUsuario() {
     alert("Funcionalidad de registro no implementada.");
+}
+
+function DarFavorito(id) {
+    const auto = autos.find(a => a.id === id);
+
+    if (auto) {
+        if (auto.liked) {
+            auto.favoritos -= 1;
+            auto.liked = false;
+        } else {
+            auto.favoritos += 1;
+            auto.liked = true;
+        }
+
+        localStorage.setItem('autos_db', JSON.stringify(autos));
+
+        cargarAutos();
+    }
 }
