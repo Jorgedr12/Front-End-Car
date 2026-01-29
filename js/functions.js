@@ -39,7 +39,49 @@ let autos = [
         nombre: "Van Oxidada",
         precio: "$4,500",
         imagen: "assets/van-oxidada.jpg",
-        favoritos: 15
+        favoritos: 2
+    },
+    {
+        id: 7,
+        nombre: "zaz-965",
+        precio: "$500",
+        imagen: "assets/zaz-965.jpg",
+        favoritos: 1
+    },
+    {
+        id: 8,
+        nombre: "Limosina",
+        precio: "$15,000",
+        imagen: "assets/Limosina.jpg",
+        favoritos: 20
+    },
+    {
+        id: 9,
+        nombre: "Carro cerdo",
+        precio: "$6,000",
+        imagen: "assets/carro-cerdo.jpg",
+        favoritos: 10
+    },
+    {
+        id: 10,
+        nombre: "Suzuki Samurai",
+        precio: "$9,000",
+        imagen: "assets/suzuki-samurai.jpg",
+        favoritos: 25
+    },
+    {
+        id: 11,
+        nombre: "Familia Peluche",
+        precio: "$25,000",
+        imagen: "assets/familia-peluche.jpg",
+        favoritos: 200
+    },
+    {
+        id:12,
+        nombre: "Mitsubishi Lancer Evo X",
+        precio: "$30,000",
+        imagen: "assets/lancer-evo.jpg",
+        favoritos: 320
     }
 ];
 
@@ -52,7 +94,6 @@ let usuarios = [
 ];
 
 function init() {
-    localStorage.clear();
 
     const nombreGuardado = localStorage.getItem('usuarioLogueado');
     const itemLogin = document.getElementById('item-login');
