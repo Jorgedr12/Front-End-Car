@@ -83,6 +83,19 @@ function init() {
     if (document.getElementById('contenedor-favoritos')) {
         TusFavoritos();
     }
+    if (document.getElementById('filtro-favoritos')) {
+        document.getElementById('filtro-favoritos').addEventListener('change', function (event) {
+            const valor = event.target.value;
+            
+            if (valor === "favoritos") {
+                autos.sort((auto1, auto2) => auto2.favoritos - auto1.favoritos);
+            } else if (valor === "inpopulares") {
+                autos.sort((auto1, auto2) => auto1.favoritos - auto2.favoritos);
+            }
+            TusFavoritos();
+        }
+        );
+    }
 }
 
 document.addEventListener('DOMContentLoaded', init);
@@ -124,9 +137,15 @@ function HacerLogin(event) {
     const nombreInput = document.getElementById('Usuario').value;
     const passInput = document.getElementById('contraseña').value;
 
-    const usuarioEncontrado = usuarios.find(user =>
-        user.nombre === nombreInput && user.contraseña === passInput
-    );
+    const usuariosRegistrados = JSON.parse(localStorage.getItem('usuarios_db')) || usuarios;
+    let usuarioEncontrado = null;
+    
+    for (const user of usuariosRegistrados) {
+        if (user.nombre === nombreInput && user.contraseña === passInput) {
+            usuarioEncontrado = user;
+            break;
+        }
+    }
 
     if (usuarioEncontrado) {
         localStorage.setItem('usuarioLogueado', usuarioEncontrado.nombre);
@@ -145,7 +164,42 @@ function cerrarSesion() {
 }
 
 function RegistrarUsuario() {
-    alert("Funcionalidad de registro no implementada.");
+    const nombreInput = document.getElementById('Usuario').value;
+    const passInput = document.getElementById('contraseña').value;
+    if (nombreInput === "" || passInput === "") {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    const usuariosRegistrados = JSON.parse(localStorage.getItem('usuarios_db')) || [];
+    let usuarioExistente = null;
+    
+    for (const user of usuariosRegistrados) {
+        if (user.nombre === nombreInput) {
+            usuarioExistente = user;
+            break;
+        }
+    }
+
+    if (usuarioExistente) {
+        alert("El nombre de usuario ya está en uso. Por favor, elige otro.");
+        return;
+    }
+
+    const nuevoUsuario = {
+        id: usuariosRegistrados.length + 1,
+        nombre: nombreInput,
+        contraseña: passInput
+    };
+
+    usuariosRegistrados.push(nuevoUsuario);
+    
+    localStorage.setItem('usuarios_db', JSON.stringify(usuariosRegistrados));
+    
+    alert("Registro exitoso. Ahora puedes iniciar sesión.");
+    
+    window.location.href = "login.html";
+
 }
 
 function DarFavorito(id) {
@@ -204,4 +258,6 @@ function TusFavoritos() {
         });
     }
 }
+
+
 
