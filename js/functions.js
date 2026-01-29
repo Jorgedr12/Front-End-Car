@@ -43,20 +43,16 @@ let autos = [
     }
 ];
 
-const usuarios = [
+let usuarios = [
     {
         id: 1,
         nombre: "admin",
         contraseña: "admin",
-    },
-    {
-        id: 2,
-        nombre: "Usuario",
-        contraseña: "contraseña123",
     }
 ];
 
 function init() {
+    localStorage.clear();
 
     const nombreGuardado = localStorage.getItem('usuarioLogueado');
     const itemLogin = document.getElementById('item-login');
@@ -87,12 +83,14 @@ function init() {
         document.getElementById('filtro-favoritos').addEventListener('change', function (event) {
             const valor = event.target.value;
             
+            let ListaAutosFavoritos = autos.filter(auto => auto.liked);
+
             if (valor === "favoritos") {
-                autos.sort((auto1, auto2) => auto2.favoritos - auto1.favoritos);
+                ListaAutosFavoritos.sort((auto1, auto2) => auto2.favoritos - auto1.favoritos);
             } else if (valor === "inpopulares") {
-                autos.sort((auto1, auto2) => auto1.favoritos - auto2.favoritos);
+                ListaAutosFavoritos.sort((auto1, auto2) => auto1.favoritos - auto2.favoritos);
             }
-            TusFavoritos();
+            TusFavoritos(ListaAutosFavoritos);
         }
         );
     }
@@ -218,7 +216,7 @@ function DarFavorito(id) {
     }
 }
 
-function TusFavoritos() {
+function TusFavoritos(ListaAutosFavoritos ) {
     const contenedor = document.getElementById('contenedor-favoritos'); {
 
 
@@ -228,7 +226,7 @@ function TusFavoritos() {
 
         }
         contenedor.innerHTML = "";
-        const autosFavoritos = autos.filter(auto => auto.liked);
+        const autosFavoritos = ListaAutosFavoritos || autos.filter(auto => auto.liked);
 
         if (autosFavoritos.length === 0) {
             contenedor.innerHTML = "<p class='text-white'>No tienes autos favoritos.</p>";
